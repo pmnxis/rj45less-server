@@ -1,0 +1,32 @@
+{
+	"editor.formatOnSave": false,
+    "[cpp]": {
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        },
+        "editor.formatOnSave": true
+    },
+    "[c]": {
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        },
+        "editor.formatOnSave": true
+    },
+    "[rust]": {
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        },
+        "editor.formatOnSave": true
+    },
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80,
+    "editor.suggest.showStatusBar": true,
+	"debug.onTaskErrors": "abort",
+	"rust-analyzer.updates.channel": "stable",
+}
