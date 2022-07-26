@@ -4,6 +4,7 @@
 use actix_web::{error, get, post, web, App, Error, HttpResponse, HttpServer, Responder};
 use entity::idtable;
 use entity::idtable::Entity as Post;
+use futures_util::StreamExt;
 use migration::{Migrator, MigratorTrait};
 use rand::Rng;
 use sea_orm::DatabaseConnection;
