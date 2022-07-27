@@ -1,1 +1,1 @@
-pub mod idtable;
+pub mod mid_table;

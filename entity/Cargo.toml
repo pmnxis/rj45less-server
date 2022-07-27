@@ -10,5 +10,6 @@ path = "src/lib.rs"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-chrono = { git = "https://github.com/chronotope/chrono.git", branch = "master" } # temporary
-sea-orm = { version = "^0.9.0", features = ["debug-print",  "runtime-actix-native-tls", "sqlx-sqlite"] }
+# chrono = { git = "https://github.com/chronotope/chrono.git", branch = "master" } # temporary
+chrono = "^0.4"
+sea-orm = { version = "^0.9" }
