@@ -1,4 +1,7 @@
+use std::ops::Sub;
+
 use sea_orm_migration::prelude::*;
+use sea_query::*;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -24,7 +27,7 @@ impl MigrationTrait for Migration {
                         ColumnDef::new(MidTable::MeshId)
                             .integer()
                             .not_null()
-                            .primary_key(),
+                            .unique_key(),
                     )
                     .col(ColumnDef::new(MidTable::Allocated).boolean())
                     .col(ColumnDef::new(MidTable::FirstTimestamp).date_time())
@@ -36,6 +39,20 @@ impl MigrationTrait for Migration {
                     .to_owned(),
             )
             .await
+            .unwrap();
+
+        manager
+            .create_index(
+                Index::create()
+                    .table(MidTable::Table)
+                    .col(MidTable::MeshId)
+                    .name("mesh_id")
+                    .to_owned(),
+            )
+            .await
+            .unwrap();
+
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

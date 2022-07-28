@@ -20,18 +20,6 @@ struct AppState {
     conn: DatabaseConnection,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct Params {
-    page: Option<usize>,
-    mid_table_per_page: Option<usize>,
-}
-
-#[derive(Deserialize, Serialize, Debug, Clone)]
-struct FlashData {
-    kind: String,
-    message: String,
-}
-
 async fn collision_check_from_db(number: i32) -> bool {
     // todo!
     return true;
@@ -43,7 +31,7 @@ async fn hello() -> impl Responder {
 }
 
 #[get("/gen")]
-async fn gen() -> impl Responder {
+async fn gen(data: web::Data<AppState>) -> impl Responder {
     let mut rng = rand::thread_rng();
     let number: i32 = rng.gen_range(100001..899999);
 
@@ -52,7 +40,7 @@ async fn gen() -> impl Responder {
 }
 
 #[get("/check/{id}")]
-async fn check() -> impl Responder {
+async fn check(data: web::Data<AppState>, id: web::Path<i32>) -> impl Responder {
     HttpResponse::Ok().body("Ahoy")
 }
 
@@ -75,19 +63,22 @@ async fn main() -> std::io::Result<()> {
         "{}/database.sqlite3",
         env::current_dir()?.to_str().unwrap()
     ));
-    let db_url = format!("sqlite://{}", db_path);
 
-    if !Path::new(&db_path).exists() {
-        File::create(&db_path)?;
-    }
+    let db_url = format!("sqlite://{}?mode=rwc", db_path);
 
     let conn = sea_orm::Database::connect(&db_url).await.unwrap();
     Migrator::up(&conn, None).await.unwrap();
 
     let state = AppState { conn };
 
-    HttpServer::new(move || App::new().service(hello).service(gen).service(check))
-        .bind("127.0.0.1:7979")?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .app_data(web::Data::new(state.clone()))
+            .service(hello)
+            .service(gen)
+            .service(check)
+    })
+    .bind("127.0.0.1:7979")?
+    .run()
+    .await
 }

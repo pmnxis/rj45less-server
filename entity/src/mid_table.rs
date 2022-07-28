@@ -7,7 +7,7 @@ pub struct Model {
     #[sea_orm(primary_key, auto_increment = true)]
     #[serde(skip_deserializing)]
     pub id: i32,
-    #[sea_orm(primary_key, auto_increment = false)]
+    #[sea_orm(unique, indexed)]
     pub mesh_id: i32,
     pub allocated: bool,
     pub first_timestamp: DateTimeUtc,
