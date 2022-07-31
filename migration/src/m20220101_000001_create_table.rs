@@ -1,7 +1,5 @@
-use std::ops::Sub;
-
 use sea_orm_migration::prelude::*;
-use sea_query::*;
+// use sea_query::*;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -29,7 +27,7 @@ impl MigrationTrait for Migration {
                             .not_null()
                             .unique_key(),
                     )
-                    .col(ColumnDef::new(MidTable::Allocated).boolean())
+                    .col(ColumnDef::new(MidTable::Claimed).integer())
                     .col(ColumnDef::new(MidTable::FirstTimestamp).date_time())
                     .col(ColumnDef::new(MidTable::FirstIp).string())
                     .col(ColumnDef::new(MidTable::FirstMac).string())
@@ -70,7 +68,7 @@ enum MidTable {
     Table,
     Id,
     MeshId,
-    Allocated,
+    Claimed,
     FirstTimestamp,
     FirstIp,
     FirstMac,

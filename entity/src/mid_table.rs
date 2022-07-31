@@ -9,7 +9,7 @@ pub struct Model {
     pub id: i32,
     #[sea_orm(unique, indexed)]
     pub mesh_id: i32,
-    pub allocated: bool,
+    pub claimed: i32,
     pub first_timestamp: DateTimeUtc,
     pub first_ip: String,
     pub first_mac: String,
